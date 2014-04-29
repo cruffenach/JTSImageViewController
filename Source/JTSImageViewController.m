@@ -12,12 +12,34 @@
 #import "UIImage+JTSImageEffects.h"
 #import "UIApplication+JTSImageViewController.h"
 
+UIImage * UIImageMaskedWithColor(UIImage *sourceImage, UIColor *maskColor) {
+    UIGraphicsBeginImageContextWithOptions(sourceImage.size, NO, [[UIScreen mainScreen] scale]);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGRect bounds = CGRectMake(0, 0, sourceImage.size.width, sourceImage.size.height);
+    
+    [maskColor setFill];
+    
+    CGContextTranslateCTM(ctx, 0, sourceImage.size.height);
+    CGContextScaleCTM(ctx, 1.0, -1.0);
+    
+    CGContextDrawImage(ctx, bounds, sourceImage.CGImage);
+    CGContextClipToMask(ctx, bounds, sourceImage.CGImage);
+    
+    CGContextAddRect(ctx, bounds);
+    CGContextDrawPath(ctx, kCGPathFill);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
 // Public Constants
 CGFloat const JTSImageViewController_DefaultAlphaForBackgroundDimmingOverlay = 0.66f;
 CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius = 2.0f;
 
 // Private Constants
-CGFloat const JTSImageViewController_MinimumBackgroundScaling = 0.94f;
+CGFloat const JTSImageViewController_MinimumBackgroundScaling = 1.0f;
 CGFloat const JTSImageViewController_TargetZoomForDoubleTap = 3.0f;
 CGFloat const JTSImageViewController_MaxScalingForExpandingOffscreenStyleTransition = 1.25f;
 CGFloat const JTSImageViewController_TransitionAnimationDuration = 0.3f;
@@ -74,6 +96,9 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
 @property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UIProgressView *progressView;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
+@property (strong, nonatomic) UIView *buttonBorder;
+@property (strong, nonatomic) UIButton *deleteButton;
+@property (strong, nonatomic) UIButton *shareButton;
 
 @property (strong, nonatomic) UITapGestureRecognizer *singleTapperPhoto;
 @property (strong, nonatomic) UITapGestureRecognizer *doubleTapperPhoto;
@@ -320,6 +345,44 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.isAccessibilityElement = NO;
     self.imageView.clipsToBounds = YES;
+    
+    self.buttonBorder = [[UIView alloc] initWithFrame:CGRectZero];
+    self.buttonBorder.backgroundColor = [UIColor colorWithHue:199.0/360.0 saturation:0.17 brightness:0.57 alpha:1.0];
+    CGFloat borderHeight = 1.0;
+    self.buttonBorder.frame = CGRectMake(0, CGRectGetHeight(self.view.frame)-50, CGRectGetWidth(self.view.bounds), borderHeight);
+    self.buttonBorder.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
+    self.buttonBorder.alpha = 0.0;
+    [self.view addSubview:self.buttonBorder];
+    
+    self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.deleteButton setTitle:@"Remove"
+                       forState:UIControlStateNormal];
+    [self.deleteButton setTitleColor:[UIColor colorWithHue:5.0/360.0 saturation:.54 brightness:.89 alpha:1.0]
+                                  forState:UIControlStateNormal];
+    [self.deleteButton setTitleColor:[UIColor colorWithHue:200.0/360.0 saturation:0.08 brightness:0.75 alpha:1.0]
+                            forState:UIControlStateHighlighted];
+    [self.deleteButton sizeToFit];
+    [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.deleteButton.frame = CGRectMake(10,
+                                         CGRectGetMaxY(self.buttonBorder.frame)+(CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.buttonBorder.frame)-CGRectGetHeight(self.deleteButton.bounds))/2.0,
+                                         CGRectGetWidth(self.deleteButton.bounds),
+                                         CGRectGetHeight(self.deleteButton.bounds));
+    self.deleteButton.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin);
+    self.deleteButton.alpha = 0.0;
+    [self.view addSubview:self.deleteButton];
+    
+    self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.shareButton setImage:[UIImage imageNamed:@"share_icon"] forState:UIControlStateNormal];
+    [self.shareButton setImage:UIImageMaskedWithColor([UIImage imageNamed:@"share_icon"], [UIColor colorWithHue:200.0/360.0 saturation:0.08 brightness:0.75 alpha:1.0]) forState:UIControlStateHighlighted];
+    [self.shareButton addTarget:self action:@selector(shareButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.shareButton sizeToFit];
+    self.shareButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds)-CGRectGetWidth(self.shareButton.bounds)-10,
+                                        CGRectGetMaxY(self.buttonBorder.frame)+(CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.buttonBorder.frame)-CGRectGetHeight(self.shareButton.bounds))/2.0,
+                                        CGRectGetWidth(self.shareButton.bounds),
+                                        CGRectGetHeight(self.shareButton.bounds));
+    self.shareButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin);
+    self.shareButton.alpha = 0.0;
+    [self.view addSubview:self.shareButton];
     
     // We'll add the image view to either the scroll view
     // or the parent view, based on the transition style
@@ -575,6 +638,13 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
                  } else {
                      [weakSelf.view setUserInteractionEnabled:YES];
                  }
+                 
+                 [UIView animateWithDuration:0.5
+                                  animations:^{
+                                      weakSelf.deleteButton.alpha = 1.0;
+                                      weakSelf.buttonBorder.alpha = 1.0;
+                                      weakSelf.shareButton.alpha = 1.0;
+                                  }];
              }];
         });
         });
@@ -1593,7 +1663,18 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     return hint;
 }
 
+#pragma mark - Button Selectors
+
+- (void)shareButtonTapped:(UIButton*)shareButton {
+    if ([self.interactionsDelegate respondsToSelector:@selector(imageViewerShareButtonPressed:)]) {
+        [self.interactionsDelegate imageViewerShareButtonPressed:self];
+    }
+}
+
+- (void)deleteButtonTapped:(UIButton*)deleteButton {
+    if ([self.interactionsDelegate respondsToSelector:@selector(imageViewerDeleteButtonPressed:)]) {
+        [self.interactionsDelegate imageViewerDeleteButtonPressed:self];
+    }
+}
+
 @end
-
-
-

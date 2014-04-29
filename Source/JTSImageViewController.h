@@ -140,10 +140,10 @@ extern CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius;
 @optional
 
 - (void)imageViewerDidLongPress:(JTSImageViewController *)imageViewer;
-
 - (BOOL)imageViewerShouldTemporarilyIgnoreTouches:(JTSImageViewController *)imageViewer;
+- (void)imageViewerDeleteButtonPressed:(JTSImageViewController*)imageView;
+- (void)imageViewerShareButtonPressed:(JTSImageViewController*)imageView;
 
 @end
-
 
 
