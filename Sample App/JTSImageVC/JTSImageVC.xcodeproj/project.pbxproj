@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B4F7483191055D700EF33EA /* share_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B4F7481191055D700EF33EA /* share_icon.png */; };
-		0B4F7484191055D700EF33EA /* share_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0B4F7482191055D700EF33EA /* share_icon@2x.png */; };
 		7F9A78FF18E754A7000CAA69 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9A78FE18E754A7000CAA69 /* Foundation.framework */; };
 		7F9A790118E754A7000CAA69 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9A790018E754A7000CAA69 /* CoreGraphics.framework */; };
 		7F9A790318E754A7000CAA69 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9A790218E754A7000CAA69 /* UIKit.framework */; };
@@ -43,8 +41,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0B4F7481191055D700EF33EA /* share_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_icon.png; sourceTree = "<group>"; };
-		0B4F7482191055D700EF33EA /* share_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_icon@2x.png"; sourceTree = "<group>"; };
 		7F9A78FB18E754A7000CAA69 /* JTSImageVC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JTSImageVC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9A78FE18E754A7000CAA69 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7F9A790018E754A7000CAA69 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -103,16 +99,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B4F7480191055D700EF33EA /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				0B4F7481191055D700EF33EA /* share_icon.png */,
-				0B4F7482191055D700EF33EA /* share_icon@2x.png */,
-			);
-			name = Images;
-			path = ../../../Source/Images;
-			sourceTree = "<group>";
-		};
 		7F9A78F218E754A7000CAA69 = {
 			isa = PBXGroup;
 			children = (
@@ -205,7 +191,6 @@
 				7F9A794118E75712000CAA69 /* UIImage+JTSImageEffects.m */,
 				7FE95B4C18EE0E8100F18370 /* UIApplication+JTSImageViewController.h */,
 				7FE95B4D18EE0E8100F18370 /* UIApplication+JTSImageViewController.m */,
-				0B4F7480191055D700EF33EA /* Images */,
 			);
 			name = Source;
 			path = JTSImageVC;
@@ -289,11 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7FE0848218E7C5C600F2F6B4 /* banecat.jpg in Resources */,
-				0B4F7484191055D700EF33EA /* share_icon@2x.png in Resources */,
 				7F9A791718E754A7000CAA69 /* Images.xcassets in Resources */,
 				7F9A790918E754A7000CAA69 /* InfoPlist.strings in Resources */,
 				7F9A791218E754A7000CAA69 /* Main.storyboard in Resources */,
-				0B4F7483191055D700EF33EA /* share_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
