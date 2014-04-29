@@ -12,7 +12,7 @@
 #import "UIImage+JTSImageEffects.h"
 #import "UIApplication+JTSImageViewController.h"
 
-UIImage * UIImageMaskedWithColor(UIImage *sourceImage, UIColor *maskColor) {
+UIImage * JTSImageMaskedWithColor(UIImage *sourceImage, UIColor *maskColor) {
     UIGraphicsBeginImageContextWithOptions(sourceImage.size, NO, [[UIScreen mainScreen] scale]);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGRect bounds = CGRectMake(0, 0, sourceImage.size.width, sourceImage.size.height);
@@ -373,7 +373,7 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     
     self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.shareButton setImage:[UIImage imageNamed:@"share_icon"] forState:UIControlStateNormal];
-    [self.shareButton setImage:UIImageMaskedWithColor([UIImage imageNamed:@"share_icon"], [UIColor colorWithHue:200.0/360.0 saturation:0.08 brightness:0.75 alpha:1.0]) forState:UIControlStateHighlighted];
+    [self.shareButton setImage:JTSImageMaskedWithColor([UIImage imageNamed:@"share_icon"], [UIColor colorWithHue:200.0/360.0 saturation:0.08 brightness:0.75 alpha:1.0]) forState:UIControlStateHighlighted];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton sizeToFit];
     self.shareButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds)-CGRectGetWidth(self.shareButton.bounds)-10,
