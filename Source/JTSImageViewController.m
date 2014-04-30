@@ -526,7 +526,8 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
             [self.imageView setCenter:centerInRect];
         }
         
-        if ([self.optionsDelegate imageViewerShouldDimThumbnails:self]) {
+        if ([self.optionsDelegate respondsToSelector:@selector(imageViewerShouldDimThumbnails:)] &&
+            [self.optionsDelegate imageViewerShouldDimThumbnails:self]) {
             [self.imageView setAlpha:0];
             [UIView animateWithDuration:0.15f animations:^{
                 [self.imageView setAlpha:1];
@@ -816,7 +817,8 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     [self setIsAnimatingAPresentationOrDismissal:YES];
     [self setIsDismissing:YES];
     
-    if ([self.optionsDelegate imageViewerShouldDimThumbnails:self]) {
+    if ([self.optionsDelegate respondsToSelector:@selector(imageViewerShouldDimThumbnails:)] &&
+        [self.optionsDelegate imageViewerShouldDimThumbnails:self]) {
         [UIView animateWithDuration:0.15 delay:0.18 options:0 animations:^{
             [self.scrollView setAlpha:0];
         } completion:nil];
