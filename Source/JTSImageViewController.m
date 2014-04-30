@@ -12,28 +12,6 @@
 #import "UIImage+JTSImageEffects.h"
 #import "UIApplication+JTSImageViewController.h"
 
-UIImage * JTSImageMaskedWithColor(UIImage *sourceImage, UIColor *maskColor) {
-    UIGraphicsBeginImageContextWithOptions(sourceImage.size, NO, [[UIScreen mainScreen] scale]);
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGRect bounds = CGRectMake(0, 0, sourceImage.size.width, sourceImage.size.height);
-    
-    [maskColor setFill];
-    
-    CGContextTranslateCTM(ctx, 0, sourceImage.size.height);
-    CGContextScaleCTM(ctx, 1.0, -1.0);
-    
-    CGContextDrawImage(ctx, bounds, sourceImage.CGImage);
-    CGContextClipToMask(ctx, bounds, sourceImage.CGImage);
-    
-    CGContextAddRect(ctx, bounds);
-    CGContextDrawPath(ctx, kCGPathFill);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
-
 // Public Constants
 CGFloat const JTSImageViewController_DefaultAlphaForBackgroundDimmingOverlay = 0.66f;
 CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius = 2.0f;
@@ -372,8 +350,8 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     [self.view addSubview:self.deleteButton];
     
     self.shareButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.shareButton setImage:[UIImage imageNamed:@"jts_share_icon"] forState:UIControlStateNormal];
-    [self.shareButton setImage:JTSImageMaskedWithColor([UIImage imageNamed:@"jts_share_icon"], [UIColor colorWithHue:200.0/360.0 saturation:0.08 brightness:0.75 alpha:1.0]) forState:UIControlStateHighlighted];
+    [self.shareButton setImage:[self.optionsDelegate shareButtonImage] forState:UIControlStateNormal];
+    [self.shareButton setImage:[self.optionsDelegate highlightedShareButtonImage] forState:UIControlStateHighlighted];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton sizeToFit];
     self.shareButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds)-CGRectGetWidth(self.shareButton.bounds)-10,

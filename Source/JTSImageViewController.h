@@ -125,6 +125,10 @@ extern CGFloat const JTSImageViewController_DefaultBackgroundBlurRadius;
 
 - (BOOL)imageViewerShouldDimThumbnails:(JTSImageViewController *)imageViewer;
 
+- (UIImage*)shareButtonImage;
+
+- (UIImage*)highlightedShareButtonImage;
+
 - (UIFont *)fontForAltTextInImageViewer:(JTSImageViewController *)imageViewer;
 
 - (UIColor *)accentColorForAltTextInImageViewer:(JTSImageViewController *)imageView;
