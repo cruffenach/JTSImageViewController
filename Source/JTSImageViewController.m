@@ -354,10 +354,10 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
     [self.shareButton setImage:[self.optionsDelegate highlightedShareButtonImage] forState:UIControlStateHighlighted];
     [self.shareButton addTarget:self action:@selector(shareButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     [self.shareButton sizeToFit];
-    self.shareButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds)-CGRectGetWidth(self.shareButton.bounds)-10,
-                                        CGRectGetMaxY(self.buttonBorder.frame)+(CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.buttonBorder.frame)-CGRectGetHeight(self.shareButton.bounds))/2.0,
-                                        CGRectGetWidth(self.shareButton.bounds),
-                                        CGRectGetHeight(self.shareButton.bounds));
+    self.shareButton.frame = CGRectMake(CGRectGetWidth(self.view.bounds)-50,
+                                        CGRectGetMaxY(self.buttonBorder.frame)+(CGRectGetHeight(self.view.bounds)-CGRectGetMinY(self.buttonBorder.frame)-44)/2.0,
+                                        44,
+                                        44);
     self.shareButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin);
     self.shareButton.alpha = 0.0;
     [self.view addSubview:self.shareButton];
