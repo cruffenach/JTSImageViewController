@@ -360,6 +360,7 @@ CGFloat const JTSImageViewController_MinimumFlickDismissalVelocity = 800.0f;
                                         44);
     self.shareButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin);
     self.shareButton.alpha = 0.0;
+    self.shareButton.accessibilityLabel = @"Share";
     [self.view addSubview:self.shareButton];
     
     // We'll add the image view to either the scroll view
